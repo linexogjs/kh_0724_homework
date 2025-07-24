@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>앨범 & 수록곡 관리</title>
+</head>
+<body>
+  <h1>앨범 / 곡 관리</h1>
+
+  <!-- 앨범 등록 -->
+  <section>
+    <h2>앨범 등록</h2>
+    <input type="text" id="albumName" placeholder="앨범명"> <br>
+    <input type="date" id="releaseDate" placeholder="출시일"> <br>
+    <input type="text" id="coverImageUrl" placeholder="앨범 이미지 URL" oninput="previewCover()"> <br>
+    <div id="coverPreview"></div> <br>
+    <button onclick="createAlbum()">등록</button>
+  </section>
+
+  <hr>
+
+  <!-- 앨범 선택 & 정보 -->
+  <section>
+    <h2>앨범 선택</h2>
+    <select id="albumSelect" onchange="loadAlbumDetails()">
+      <option value="">앨범 선택</option>
+    </select>
+
+    <div id="albumInfoBox">
+      <p><strong>앨범명:</strong> <span id="albumTitle"></span></p>
+      <p><strong>출시일:</strong> <span id="albumDate"></span></p>
+      <img id="albumImage" src="" width="200" alt="앨범 이미지">
+    </div>
+
+    <div>
+      <h3>수록곡 목록</h3>
+      <ul id="songList"></ul>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- 곡 등록 & 수정 -->
+  <section>
+    <h2 id="songFormTitle">곡 등록</h2>
+    <input type="text" id="songTitle" placeholder="곡명"> <br>
+    <input type="text" id="songLength" placeholder="길이 (mm:ss)"> <br>
+    <input type="number" id="trackNo" placeholder="트랙번호"> <br><br>
+    <button id="songSubmitBtn" onclick="addSong()">등록</button>
+    <button id="cancelEditBtn" onclick="resetSongForm()" style="display: none;">취소</button>
+  </section>
+
+  <script src="hw.js"></script>
+</body>
+</html>
