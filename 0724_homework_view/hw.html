@@ -2,19 +2,23 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>앨범 & 수록곡 관리</title>
+  <title>07/25 박태헌 과제발표</title>
+  <link rel="stylesheet" href="hw.css">
 </head>
 <body>
-  <h1>앨범 / 곡 관리</h1>
+  <h1>07/25 과제 앨범 / 곡 관리 </h1>
+  <hr>
 
   <!-- 앨범 등록 -->
-  <section>
+  <section id="albumFormSection">
     <h2>앨범 등록</h2>
     <input type="text" id="albumName" placeholder="앨범명"> <br>
     <input type="date" id="releaseDate" placeholder="출시일"> <br>
     <input type="text" id="coverImageUrl" placeholder="앨범 이미지 URL" oninput="previewCover()"> <br>
     <div id="coverPreview"></div> <br>
-    <button onclick="createAlbum()">등록</button>
+    <div class="album-form-actions">
+      <button type="button" class="btn btn-primary" onclick="createAlbum()">등록</button>
+    </div>
   </section>
 
   <hr>
@@ -27,13 +31,16 @@
     </select>
 
     <div id="albumInfoBox">
+      <br> <img id="albumImage" src="https://img.freepik.com/free-vector/cd-cover-design-mockup-vector_53876-61569.jpg?semt=ais_hybrid&w=740" width="200" alt="앨범 이미지">
+      <br>
+      <hr>
       <p><strong>앨범명:</strong> <span id="albumTitle"></span></p>
       <p><strong>출시일:</strong> <span id="albumDate"></span></p>
-      <img id="albumImage" src="" width="200" alt="앨범 이미지">
     </div>
 
     <div>
-      <h3>수록곡 목록</h3>
+      <hr>
+      <h2>수록곡 목록</h2>
       <ul id="songList"></ul>
     </div>
   </section>
@@ -41,15 +48,25 @@
   <hr>
 
   <!-- 곡 등록 & 수정 -->
-  <section>
+  <section id="songFormSection">
     <h2 id="songFormTitle">곡 등록</h2>
     <input type="text" id="songTitle" placeholder="곡명"> <br>
     <input type="text" id="songLength" placeholder="길이 (mm:ss)"> <br>
     <input type="number" id="trackNo" placeholder="트랙번호"> <br><br>
-    <button id="songSubmitBtn" onclick="addSong()">등록</button>
-    <button id="cancelEditBtn" onclick="resetSongForm()" style="display: none;">취소</button>
+    <!-- <button id="songSubmitBtn" onclick="addSong()">등록</button> -->
+
+    <div class="song-form-actions">
+      <button id="songSubmitBtn" type="button" class="btn btn-primary" onclick="addSong()">등록</button>
+    </div>
+    
+    <!-- <button id="cancelEditBtn" onclick="resetSongForm()" style="display: none;">취소</button> -->
+    <button id="cancelEditBtn" type="button" class="btn btn-danger" onclick="resetSongForm()" style="display: none;">취소</button>
   </section>
 
   <script src="hw.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 </body>
 </html>

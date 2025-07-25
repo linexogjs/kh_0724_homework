@@ -10,25 +10,39 @@ function createAlbum() {
   const coverImageUrl = document.getElementById('coverImageUrl').value.trim();
 
   if (!title || !releaseDate || !coverImageUrl) {
-    alert('모든 값을 입력해주세요');
+        Swal.fire({
+      icon: "error",
+      title: "등록 실패...",
+      text: "모든 입력값을 채워주세요!",
+    });
     return;
   }
 
   fetch(`${url}/albums`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ title, releaseDate, coverImageUrl })
+    body: JSON.stringify(
+      { title, releaseDate, coverImageUrl }
+    )
   })
     .then(res => {
       if (res.ok) {
-        alert('앨범 등록 완료');
+                Swal.fire({
+          title: "등록 성공!",
+          icon: "success",
+          draggable: true
+        });
         document.getElementById('albumName').value = '';
         document.getElementById('releaseDate').value = '';
         document.getElementById('coverImageUrl').value = '';
         document.getElementById('coverPreview').innerHTML = '';
         loadAlbums();
       } else {
-        alert('등록 실패');
+        Swal.fire({
+          icon: "error",
+          title : "등록실패..",
+          text : "서버 오류로 인해 실패하였습니다.",
+        });
       }
     });
 }
@@ -75,7 +89,7 @@ function loadAlbumDetails() {
       const ul = document.getElementById('songList');
       ul.innerHTML = '';
       if (songs.length === 0) {
-        ul.innerHTML = '<li>수록곡 없음</li>';
+        ul.innerHTML = '<li>수록곡이 없습니다.</li>';
         return;
       }
 
@@ -94,7 +108,11 @@ function loadAlbumDetails() {
 // 곡 등록 (or 수정)
 function addSong() {
   if (!selectedAlbumId) {
-    alert('먼저 앨범을 선택해주세요.');
+    Swal.fire({
+      icon: "error",
+      title: "등록 실패...",
+      text: "먼저 앨범을 선택해주세요!",
+    });
     return;
   }
 
@@ -103,7 +121,11 @@ function addSong() {
   const trackNo = parseInt(document.getElementById('trackNo').value);
 
   if (!title || !length || isNaN(trackNo)) {
-    alert('곡명, 길이, 트랙번호를 모두 입력해주세요.');
+    Swal.fire({
+      icon: "error",
+      title: "등록 실패...",
+      text: "모든 입력값을 채워주세요!",
+    });
     return;
   }
 
@@ -122,11 +144,19 @@ function addSong() {
       body: JSON.stringify(payload)
     }).then(res => {
       if (res.ok) {
-        alert('곡 등록 완료');
+        Swal.fire({
+          title: "곡 등록 성공!",
+          icon: "success",
+          draggable: true
+        });
         resetSongForm();
         loadAlbumDetails();
       } else {
-        alert('곡 등록 실패');
+            Swal.fire({
+          icon: "error",
+          title: "곡 등록 실패...",
+          text: "다시 한 번 확인해주세요!",
+        });
       }
     });
   } else {
@@ -137,7 +167,13 @@ function addSong() {
       body: JSON.stringify(payload)
     }).then(res => {
       if (res.ok) {
-        alert('곡 수정 완료');
+              Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "곡 수정 완료!",
+        showConfirmButton: false,
+        timer: 1500
+      });
         resetSongForm();
         loadAlbumDetails();
       } else {
@@ -172,18 +208,41 @@ function resetSongForm() {
 
 // 삭제
 function deleteSong(songId) {
-  if (!confirm('정말 삭제하시겠습니까?')) return;
-
-  fetch(`${url}/songs/${songId}`, {
-    method: 'DELETE'
-  }).then(res => {
-    if (res.ok) {
-      alert('삭제 완료');
-      loadAlbumDetails();
-    } else {
-      alert('삭제 실패');
+  Swal.fire({
+    title: "정말 삭제하시겠습니까?",
+    text: "삭제 후 복구할 수 없습니다!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "네, 삭제하겠습니다.",
+    cancelButtonText: "취소"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`${url}/songs/${songId}`, {
+        method: 'DELETE'
+      })
+      .then(res => {
+        if (res.ok) {
+          Swal.fire({
+            title: "삭제 완료!",
+            text: "수록곡이 삭제되었습니다.",
+            icon: "success",
+            confirmButtonText: "확인"
+          }).then(() => {
+            loadAlbumDetails();  
+          });
+        } else {
+          Swal.fire({
+            title: "삭제 실패",
+            text: "서버와의 통신에 실패했습니다.",
+            icon: "error"
+          });
+        }
+      });
     }
   });
 }
+
 
 window.onload = loadAlbums;
